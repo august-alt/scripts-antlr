@@ -1,0 +1,75 @@
+grammar Scripts;
+
+/*
+ * Parser Rules
+ */
+
+inifile : whitespace sections whitespace EOF;
+sections : section+;
+whitespaceclass : cr | lf | wsp;
+whitespace : whitespaceclass*;
+spacedelimiter : whitespaceclass+;
+section : sectionheader keys;
+sectionheader : whitespace '[' sectionname ']' spacedelimiter;
+sectionname : toklogon | toklogoff | tokstartup | tokshutdown;
+keys : key+;
+key : tokkey tokis tokvalue;
+tokkey : whitespace (alpha | digit)+;
+tokis : whitespace '=';
+tokvalue : whitespace (alpha | '_' | digit )+ spacedelimiter;
+toklogon : whitespace (('L' | 'l') ('O' | 'o') ('G' | 'g') ('O' | 'o') ('N' | 'n')) whitespace;
+toklogoff : whitespace (('L' | 'l') ('O' | 'o') ('G' | 'g') ('O' | 'o') ('F' | 'f') ('F' | 'f')) whitespace;
+tokstartup : whitespace (('S' | 's') ('T' | 't') ('A' | 'a') ('R' | 'r') ('T' | 't') ('U' | 'u') ('P' | 'p')) whitespace;
+tokshutdown : whitespace (('S' | 's') ('H' | 'h') ('U' | 'u') ('T' | 't') ('D' | 'd') ('O' | 'o') ('W' | 'w') ('N' | 'n')) whitespace;
+
+alpha : ALPHA;
+digit : DIGIT;
+
+lf : LF;
+cr : CR;
+
+wsp
+	:
+		(SP | HTAB)+
+		// white space
+	;
+
+/*
+ * Lexer Rules
+ */
+
+ALPHA
+	:
+		'A'..'Z' | 'a'..'z'
+	;
+
+DIGIT
+	:
+		'0'..'9'
+	;
+
+LF
+	:
+		'\u000A'
+		// linefeed
+	;
+
+CR
+	:
+		'\u000D'
+		// carriage return
+	;
+
+
+SP
+	:
+		'\u0020'
+		// space
+	;
+
+HTAB
+	:
+		'\u0009'
+		// horizontal tab
+	;
+

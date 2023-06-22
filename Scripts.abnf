@@ -1,0 +1,17 @@
+IniFile = WhiteSpace Sections WhiteSpace
+Sections = 1*Section
+WhiteSpaceClass = CR / LF / WSP
+WhiteSpace = *WhiteSpaceClass
+SpaceDelimiter = 1*WhiteSpaceClass
+Section = SectionHeader Keys
+SectionHeader = WhiteSpace "[" SectionName "]" SpaceDelimiter
+SectionName = TokLogon / TokLogoff / TokStartup / TokShutdown
+Keys = 1*Key
+Key = TokKey TokIs TokValue
+TokKey = WhiteSpace 1*(ALPHA / DIGIT)
+TokIs = WhiteSpace "="
+TokValue = WhiteSpace 1*(ALPHA / "_" / DIGIT ) SpaceDelimiter
+TokLogon = WhiteSpace "Logon" WhiteSpace
+TokLogoff = WhiteSpace "Logoff" WhiteSpace
+TokStartup = WhiteSpace "Startup" WhiteSpace
+TokShutdown = WhiteSpace "Shutdown" WhiteSpace
